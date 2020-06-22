@@ -15,7 +15,9 @@ class Pelicula {
 		
 		this.validarId(id)
 		this.validarTituloYDirector(titulo,director)
-		}
+		this.validarAnoDeEstreno(estreno)
+		this.validarPais(pais)
+	}
 
 
 	validarCadenaTexto(texto){
@@ -45,10 +47,38 @@ class Pelicula {
 		this.director =director
 		return 
 		}
+	
+	validarAnoDeEstreno(estreno){
+		if(!(typeof(estreno)=='number')){
+		return console.error(`El valor ${estreno} no corresponte a un numero`);
+		 } else if (!(Number.isInteger(estreno))){
+		   return console.error(`El valor ${estreno} no es entero`);
+			 } else if (!(/^[0-9]{0,3}\d$/.test(estreno))){
+				return console.error(`el ${estreno} anio  no es valido mayor a 4 digitos`);
+			}	
+    	}
+	
+	validarPais(pais){
+		if(!( Array.isArray(pais))){
+			return console.error('Los paises deben ser ingresados en forma de array')
+	    	}else for( let i in pais ){
+		    	this.validarCadenaTexto(pais[i])
+		     }
+		}
+
+	validarGenero(generos){
+		if (!(Array.isArray(generos))) {
+			return console.error('Los generos deben ser ingresados en forma de array')
+		}
+
 
 
 	}
 
+  /*Action, Adult, adventura,animation, biograpgy, comedy, crime, documentary,
+ 	drama, family, fantasy, film noir, game show, history, horror, musical, music,
+  	mystery, news, reality, romance, sci-fi. short, sport, talk-show, thriller,
+   	war, western*/
 
 var interstellar = new Pelicula(
 	{	id: 'tt0841669',		//se deben pasar objetos para qie la destructurasion funciones 
@@ -57,5 +87,8 @@ var interstellar = new Pelicula(
 		estreno: 2014,
 		pais:['EE.UU','U.K','canada'],
 		generos:['adventure', 'Drama', 'Sci-Fi'],
-		clasificacion:'PG-13'
+		calificacion:8.6
 	})
+
+
+	
