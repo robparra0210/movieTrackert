@@ -4,7 +4,7 @@
 
 
 class Pelicula { 
-	constructor({id, titulo, director, estreno, pais, generos, calificacion}){ //lo corchetes son para generar una destructuracion del obeto
+	constructor({ id, titulo, director, estreno, pais, generos, calificacion}){ //lo corchetes son para generar una destructuracion del obeto
 		this.id = id;  //interstellar: tt0816692 		arrival: tt2543164  mr: robot 
 		this.titulo= titulo;
 		this.director=director; 
@@ -17,6 +17,9 @@ class Pelicula {
 		this.validarTituloYDirector(titulo,director)
 		this.validarAnoDeEstreno(estreno)
 		this.validarPais(pais)
+		this.validarGeneros(generos)
+		this.validarCalificacion(calificacion)
+		//this.fichaTecnica(id, titulo, director, estreno, pais, generos, calificacion)
 	}
 
 
@@ -66,29 +69,88 @@ class Pelicula {
 		     }
 		}
 
-	validarGenero(generos){
-		if (!(Array.isArray(generos))) {
-			return console.error('Los generos deben ser ingresados en forma de array')
+	static get listaGeneros(){
+		return ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime',' Documentary',
+			'Drama', 'Family', 'Fantasy', 'Film Noir', 'Game Show', 'History', 'Horror', 'Musical', 'Music',
+			'Mystery','News', 'Reality', 'Romance', 'Sci-Fi' ,'Short', 'Sport', 'Talk-Show', 'Thriller',
+			'War', 'Western']
+	}
+
+	static generosAceptados(){
+		return console.info(`Los generos aceptados son: ${Pelicula.listaGeneros.join(', ')} `)
+	}
+
+
+
+	validarGeneros(generos){
+
+	if (!(Array.isArray(generos))) {
+		return console.error('Los generos deben ser ingresados en forma de array')
+		}
+	for(let genero of generos ){  
+		if (!Pelicula.listaGeneros.includes(genero)){
+			console.error(`Genero incorrecto ${generos.join(', ')}` );
+			Pelicula.listaGeneros()
+		    }
+	    }
+	}
+
+	validarCalificacion(calificacion){
+		let decimal = /^\d*\.?\d$/;
+		if (!(typeof (calificacion) == 'number')) {
+			return console.error(`El valor ${calificacion} no corresponte a un numero`);
+		}else if (!(decimal.test(calificacion))) {
+			return console.error('solo se admite un valor decimal')
+		} else if(!(calificacion >= 0 && calificacion<=10)){
+			return console.error('solo se adminten valores de entre 0 a diez')
 		}
 
+	}	
 
+	fichaTecnica(){
+		console.info(` FICHA TECNICA \n titulo: ${this.titulo}\n id: ${this.id}\n director: ${this.titulo}\n estreno: ${this.estreno}\n pais: ${this.pais.join(', ')}\n generos: ${this.generos.join(', ')}\n calificaion: ${this.calificacion}	`)
 
 	}
 
-  /*Action, Adult, adventura,animation, biograpgy, comedy, crime, documentary,
- 	drama, family, fantasy, film noir, game show, history, horror, musical, music,
-  	mystery, news, reality, romance, sci-fi. short, sport, talk-show, thriller,
-   	war, western*/
 
-var interstellar = new Pelicula(
+}
+  
+/*const  interstellar = new Pelicula(
 	{	id: 'tt0841669',		//se deben pasar objetos para qie la destructurasion funciones 
 		titulo: 'interstellar',
 		director: 'Christopher Nolan ',
 		estreno: 2014,
 		pais:['EE.UU','U.K','canada'],
-		generos:['adventure', 'Drama', 'Sci-Fi'],
-		calificacion:8.6
-	})
+		generos:['Adventure', 'Drama', 'Sci-Fi'],
+		calificacion: 10
+	})*/
 
+const peli = [
+			{id: 'tt0841669',		//se deben pasar objetos para qie la destructurasion funciones 
+			titulo: 'interstellar',
+			director: 'Christopher Nolan ',
+			estreno: 2014,
+			pais: ['EE.UU', 'U.K', 'canada'],
+			generos: ['Adventure', 'Drama', 'Sci-Fi'],
+			calificacion: 8.4}, 
 
-	
+		    {id:'tt1091722',
+			 titulo: 'Adventureland',
+			 director:'Greg Mottola',
+			 estreno:2009,
+			 pais:['usa'],
+			 generos: ['Comedy', 'Drama', 'Romance' ],
+			 calificacion: 6.8 
+			},
+
+			{id: 'tt4158110',
+			 titulo:'Mr.Robot',
+			 director:'Sam Esmail',
+			 estreno:2015,
+			 pais: ['EE.UU',' U.K'],
+			 generos: ['Crime', 'Drama', 'Thriller' ],
+			 calificacion: 8.5
+			}
+		]
+
+   peli.forEach(Peli => { new Pelicula(Peli).fichaTecnica() });
